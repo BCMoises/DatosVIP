@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Control de LED</title>
+</head>
+<body>
+    <h1>Control de LED</h1>
+
+    <!-- Botones para encender y apagar el LED -->
+    <button id="turnOnButton">Encender LED</button>
+    <button id="turnOffButton">Apagar LED</button>
+
+    <script>
+        const turnOnButton = document.getElementById("turnOnButton");
+        const turnOffButton = document.getElementById("turnOffButton");
+
+        // Función para enviar comandos al ESP8266 a través de su dirección IP
+        function sendCommand(command) {
+            const ipAddress = "Dirección_IP_de_Tu_ESP8266"; // Reemplaza con la dirección IP actual
+            const url = `http://${ipAddress}/${command}`;
+
+            // Realiza una solicitud HTTP al ESP8266
+            fetch(url)
+                .then(response => {
+                    if (response.ok) {
+                        console.log(`Comando "${command}" enviado con éxito.`);
+                    } else {
+                        console.error(`Error al enviar el comando "${command}".`);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error de red:", error);
+                });
+        }
+
+        // Manejadores de eventos para los botones
+        turnOnButton.addEventListener("click", () => {
+            sendCommand("turnOn");
+        });
+
+        turnOffButton.addEventListener("click", () => {
+            sendCommand("turnOff");
+        });
+    </script>
+</body>
+</html>
